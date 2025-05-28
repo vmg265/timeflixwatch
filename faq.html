@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FAQs | Timeflix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: #111;
+            color: white;
+        }
+
+        /* Reuse header styles */
+        .top-bar {
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 2rem);
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            background: rgba(100, 100, 100, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+            z-index: 9999;
+        }
+
+        .top-logo {
+            height: 40px;
+        }
+
+        .top-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .top-buttons a {
+            text-decoration: none;
+            padding: 0.6rem 1rem;
+            border-radius: 999px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-blog {
+            background-color: #333;
+            color: white;
+        }
+
+        .btn-signup {
+            background: linear-gradient(270deg, #2f355d, #2f5d57);
+            background-size: 400% 400%;
+            animation: gradientMove 5s ease infinite;
+            color: white;
+            text-shadow: 0 0 1px white, 0 0 1px white;
+            font-weight: 700;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        main {
+            padding-top: 6rem;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-bottom: 5rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .faq {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #444;
+            padding-bottom: 1rem;
+        }
+
+        .faq h2 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq p {
+            font-size: 1rem;
+            font-weight: 300;
+            color: #ccc;
+        }
+
+        /* Footer */
+        .custom-footer {
+            background-color: black;
+            padding: 2rem 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-and-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .social-icons a img {
+            width: 24px;
+            height: 24px;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-icons a:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+
+        .footer-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-btn {
+            padding: 1rem;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 0.75rem;
+            font-weight: 600;
+        }
+
+        .footer-text {
+            color: #aaa;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        @media (min-width: 768px) {
+            .custom-footer {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+
+            .social-and-buttons {
+                flex-direction: row;
+                justify-content: space-between;
+                width: 100%;
+            }
+
+            .footer-text {
+                text-align: right;
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="top-bar">
+        <a href="https://www.timeflixwatch.com">
+            <img src="https://cdn.shopify.com/s/files/1/0849/5359/6151/files/Picsart_25-05-29_01-12-51-024.png?v=1748461464" alt="Logo" class="top-logo" />
+        </a>
+        <div class="top-buttons">
+            <a href="#" class="btn-blog">Blogs</a>
+            <a href="https://forms.gle/Zbd45vWHUDyFxMFKA" class="btn-signup">SIGN UP NOW</a>
+        </div>
+    </header>
+
+    <!-- Main FAQ Content -->
+    <main>
+        <h1>Frequently Asked Questions</h1>
+
+        <div class="faq">
+            <h2>Does it need a phone to work?</h2>
+            <p>No, it works standalone. All core functionality like time, media, and health works without a phone.</p>
+        </div>
+
+        <div class="faq">
+            <h2>How long does the battery last?</h2>
+            <p>Up to 7 days with typical use. Longer with minimal smart features.</p>
+        </div>
+
+        <div class="faq">
+            <h2>Can I install apps on it?</h2>
+            <p>Yes! There's an app store and a developer kit to build your own apps and watchfaces.</p>
+        </div>
+
+        <div class="faq">
+            <h2>Is my data safe?</h2>
+            <p>Absolutely. The device works offline and doesn’t force you to create an account. You own your data.</p>
+        </div>
+
+        <div class="faq">
+            <h2>Is it waterproof?</h2>
+            <p>Yes, it's 5ATM water resistant – safe for swimming and everyday wear.</p>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="custom-footer">
+        <div class="custom-footer">
+            <div class="social-and-buttons">
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/timeflix_watch/" target="_blank" aria-label="Instagram">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram" />
+                        </a>
+                        <a href="https://www.reddit.com/r/timeflixwatch/" target="_blank" aria-label="Reddit">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111589.png" alt="Reddit" />
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=krUjV9A8EUg&vl=en" target="_blank" aria-label="YouTube">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" />
+                        </a>
+                </div>
+
+                <div class="footer-buttons">
+                    <a href="https://www.timeflixwatch.com/" class="footer-btn">Home</a>
+                    <a href="https://forms.gle/Zbd45vWHUDyFxMFKA" class="footer-btn">Sign up</a>
+                </div>
+            </div>
+
+            <div class="footer-text">
+                © 2025 Timeflix. All rights reserved.
+            </div>
+        </div>
+
+    </footer>
+</body>
+
+</html>

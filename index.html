@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scrolling Sections Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            font-family: 'Montserrat', sans-serif;
+            height: 100%;
+            margin: 0;
+            background-color: #111111;
+            /* Dark grey */
+            color: white;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        main {
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+        }
+
+        section {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        section.visible {
+            opacity: 1;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: row;
+            max-width: 1200px;
+            width: 100%;
+            gap: 2rem;
+        }
+
+        .media {
+            flex: 1;
+            border-radius: 1rem;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+        }
+
+        .media img,
+        .media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 1rem;
+        }
+
+        .text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+        }
+
+        .text h1 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+        }
+
+        .text h2 {
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            font-size: clamp(1.2rem, 4vw, 2rem);
+        }
+
+        .text p {
+            font-weight: 300;
+            line-height: 1.6;
+            font-size: clamp(1rem, 3.5vw, 1.25rem);
+        }
+
+        /* First section specific styles */
+        .full-video-section {
+            padding: 0;
+        }
+
+        .full-video-section video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+
+            .media {
+                width: 100%;
+            }
+
+            .text {
+                width: 100%;
+            }
+
+            .desktop-video {
+                display: none;
+            }
+
+            .mobile-video {
+                display: block;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-video {
+                display: none;
+            }
+
+            .desktop-video {
+                display: block;
+            }
+        }
+
+        .grid-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 1rem;
+            gap: 1rem;
+            background-color: #3a3a3a;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+            box-sizing: border-box;
+        }
+
+        .grid {
+            flex: 1 1 33%;
+            display: grid;
+            gap: 1.5rem;
+            max-width: 1200px;
+            width: 100%;
+            grid-template-columns: repeat(2, 1fr);
+            justify-content: center;
+        }
+
+
+        @media (min-width: 769px) {
+            .grid {
+                grid-template-columns: repeat(4, 1fr);
+                margin-top: 5rem;
+                /* Adjust as needed */
+            }
+        }
+
+
+        .grid-item {
+            aspect-ratio: 1 / 1;
+            background-color: #1a1a1a;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+
+        /* Carousel */
+        .carousel {
+            flex: 0 1 auto;
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding-top: 0.5rem;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            width: 100%;
+        }
+
+        .carousel iframe {
+            flex: 0 0 auto;
+            width: 280px;
+            max-width: 100%;
+            aspect-ratio: 16 / 10;
+            height: auto;
+            border-radius: 0.75rem;
+            scroll-snap-align: start;
+            background-color: #000;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(2, 1fr);
+                max-width: 100%;
+                gap: 0.75rem;
+                margin-top: 6rem;
+                /* Reduce spacing between boxes */
+            }
+
+
+            .carousel iframe {
+                width: 240px;
+                aspect-ratio: 16 / 10;
+                height: auto;
+            }
+
+            .grid-section {
+                gap: 0.5rem;
+                /* Less space between grid and carousel */
+                padding-bottom: 0.5rem;
+            }
+
+            .carousel {
+                margin-top: 0;
+                padding-top: 0;
+                gap: 0.5rem;
+            }
+        }
+
+
+
+        .custom-footer {
+            flex: 0 0 auto;
+            background-color: black;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .footer-buttons {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: space-between;
+        }
+
+        .footer-btn {
+            flex: 1;
+            padding: 1rem;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .footer-btn:hover {
+            background-color: #555;
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            color: #ccc;
+            text-align: left;
+        }
+
+        /* Desktop layout */
+        @media (min-width: 768px) {
+            @media (min-width: 768px) {
+                .custom-footer {
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                    flex-wrap: wrap;
+                    gap: 1rem;
+                }
+
+                .social-and-buttons {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 2rem;
+                    /* Give some space between icons and buttons */
+                    align-items: center;
+                    flex: 1;
+                }
+
+                .footer-text {
+                    order: 2;
+                    flex-shrink: 0;
+                    white-space: nowrap;
+                    text-align: right;
+                }
+            }
+
+
+            .footer-buttons {
+                order: 2;
+                justify-content: flex-end;
+            }
+        }
+
+        .top-bar {
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 2rem);
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            background: rgba(100, 100, 100, 0.3);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+            z-index: 9999;
+        }
+
+        .top-logo {
+            height: 40px;
+            object-fit: contain;
+        }
+
+        .top-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .top-buttons a {
+            text-decoration: none;
+            padding: 0.6rem 1rem;
+            border-radius: 999px;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        /* BLOG BUTTON */
+        .btn-blog {
+            background-color: #333;
+            color: white;
+        }
+
+        /* SIGN UP BUTTON with animated gradient and glow */
+        .btn-signup {
+            background: linear-gradient(270deg, #2f355d, #2f5d57);
+            background-size: 400% 400%;
+            animation: gradientMove 5s ease infinite;
+            color: white;
+            text-shadow: 0 0 1px white, 0 0 1px white;
+            font-weight: 700;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .top-bar {
+                flex-direction: row;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .top-logo {
+                height: 30px;
+            }
+
+            .top-buttons {
+                gap: 0.5rem;
+            }
+
+            .top-buttons a {
+                padding: 0.5rem 0.75rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        .swipe-up-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 0.9rem;
+            color: #ffffffcc;
+            font-weight: 300;
+            animation: fadeUpDown 2s infinite;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .swipe-up-hint .arrow {
+            width: 12px;
+            height: 12px;
+            border-left: 2px solid white;
+            border-top: 2px solid white;
+            transform: rotate(45deg);
+            animation: bounceArrowUp 1.5s infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes bounceArrowUp {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(45deg);
+            }
+
+            50% {
+                transform: translateY(-5px) rotate(45deg);
+            }
+        }
+
+        @keyframes fadeUpDown {
+
+            0%,
+            100% {
+                opacity: 0.6;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        /* Wrapper to group icons + buttons */
+        .social-and-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            width: 100%;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .social-icons a img {
+            width: 20px;
+            height: 20px;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-icons a:hover img {
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+
+        .footer-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Desktop View */
+        @media (min-width: 768px) {
+            .social-and-buttons {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .social-icons {
+                justify-content: flex-start;
+                margin-right: auto;
+            }
+
+            .footer-buttons {
+                justify-content: flex-start;
+            }
+        }
+
+        /* Mobile View */
+        @media (max-width: 767px) {
+            .social-icons {
+                margin-bottom: 0;
+            }
+
+            .footer-buttons {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="top-bar">
+        <a href="https://www.timeflixwatch.com">
+          <img src="https://cdn.shopify.com/s/files/1/0849/5359/6151/files/Picsart_25-05-29_01-12-51-024.png?v=1748461464" alt="Logo" class="top-logo" />
+        </a>
+        <div class="top-buttons">
+            <a href="#" class="btn-blog">Blogs</a>
+            <a href="https://forms.gle/Zbd45vWHUDyFxMFKA" class="btn-signup">SIGN UP NOW</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Fullscreen Video Section -->
+        <section class="full-video-section">
+            <video class="desktop-video" autoplay muted loop playsinline>
+                <source src="https://cdn.shopify.com/videos/c/o/v/64c3a8e39afa40978fe343c7a1a947d2.mp4" type="video/mp4">
+            </video>
+            <video class="mobile-video" autoplay muted loop playsinline>
+                <source src="https://cdn.shopify.com/videos/c/o/v/e426620f782a47c291449c40cc937051.mp4" type="video/mp4">
+            </video>
+            <div class="swipe-up-hint">
+                <div class="arrow"></div>
+                <span>Swipe up</span>
+            </div>
+        </section>
+
+        <!-- Standard Content Sections -->
+        <section>
+            <div class="content">
+                <div class="media">
+                    <video autoplay muted loop>
+                        <source src="https://cdn.shopify.com/videos/c/o/v/90675503f67645ef9ba0e9da4b5d85d7.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="text">
+                    <h1>Reliable timekeeper first, Smarts added later</h1>
+                    <h2>Uses <span style="background-color: white; color: black; padding: 0.1em 0.2em; border-radius: 8px;">real physical hands</span> around the smart display</h2>
+                    <p>Because a watch should always show the time, instead of being a blank screen on your wrist<br><br>No more tapping or flicking your wrist just to see the time</p>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="content">
+                <div class="media">
+                    <img src="https://cdn.shopify.com/s/files/1/0849/5359/6151/files/circle93.png?v=1748344906" alt="Placeholder" />
+                </div>
+                <div class="text">
+                    <h1>Intentionally no touchscreen</h1>
+                    <h2>Four buttons- control the whole UI. Perform everyday tasks faster, reach information quicker, be more present in your life</h2>
+                    <p>Take it further with customizable gesture shortcuts
+                        Overtime you develop muscle memory for it<br> & finally your smartwatch doesnt smudge up by the end of the day</p>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="content">
+                <div class="media">
+                    <img src="https://cdn.shopify.com/s/files/1/0849/5359/6151/files/Photoroom-20250327_015055.png?v=1743190308" alt="Placeholder" />
+                </div>
+                <div class="text">
+                    <h1>Essential smarts</h1>
+                    <h2>Store all your Music, podcasts, QR codes and media on your wrist</h2>
+                    <p>App store and Watchface store. You can also design your own watchfaces and build your own app </p>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="content">
+                <div class="media">
+                    <img src="https://cdn.shopify.com/s/files/1/0849/5359/6151/files/Photoroom-20250327_014622.png?v=1743190308" alt="Placeholder" />
+                </div>
+                <div class="text">
+                    <h1>Not a gadget</h1>
+                    <h2>Its a classic timepiece, with no worries of carrying a charger to your weekend trip. </h2>
+                    <p>Beautifully designed to be all time stylish, metal build, 5ATM Water resistance for all time durable</p>
+                </div>
+            </div>
+        </section>
+        <section class="text-only-section">
+            <div class="content">
+                <div class="text">
+                    <h1>We believe in wrist privacy. </h1>
+                    <h2>Its your device, its your data. No selling, no forced cloud syncing, you own your data no one else</h2>
+                    <p>App works offline and Works without an account <br><br>Sync securely with Google Fit & Apple Health if you choose to</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="grid-section">
+            <div class="grid">
+                <div class="grid-item"><img src="https://cdn.shopify.com/s/files/1/0849/5359/6151/files/Picsart_25-05-28_19-02-33-251.png?v=1748458469" alt="Image 1" /></div>
+                <div class="grid-item"><img src="https://cdn.shopify.com/s/files/1/0849/5359/6151/files/Picsart_25-05-28_18-05-59-106_1.png?v=1748458539" alt="Image 2" /></div>
+                <div class="grid-item"><img src="https://cdn.shopify.com/s/files/1/0849/5359/6151/files/Picsart_25-05-28_19-01-07-813.png?v=1748458939" alt="Image 3" /></div>
+                <div class="grid-item"><img src="https://cdn.shopify.com/s/files/1/0849/5359/6151/files/Picsart_25-05-28_19-04-33-613.png?v=1748458593" alt="Image 4" /></div>
+            </div>
+
+            <div class="carousel">
+                <iframe src="https://www.youtube.com/embed/krUjV9A8EUg?rel=0&modestbranding=1&showinfo=0" frameborder="0" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/lH33Ta74j28?rel=0&modestbranding=1&showinfo=0" frameborder="0" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/p4FWZS684Xk?rel=0&modestbranding=1&showinfo=0" frameborder="0" allowfullscreen></iframe>
+                <iframe src="https://www.youtube.com/embed/4GMfrizOsv0?rel=0&modestbranding=1&showinfo=0" frameborder="0" allowfullscreen></iframe>
+            </div>
+
+            <div class="custom-footer">
+
+                <div class="social-and-buttons">
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/timeflix_watch/" target="_blank" aria-label="Instagram">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram" />
+                        </a>
+                        <a href="https://www.reddit.com/r/timeflixwatch/" target="_blank" aria-label="Reddit">
+                            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111589.png" alt="Reddit" />
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=krUjV9A8EUg&vl=en" target="_blank" aria-label="YouTube">
+                            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube" />
+                        </a>
+                    </div>
+
+                    <div class="footer-buttons">
+                        <a href="https://example.com/faqs" class="footer-btn">FAQs</a>
+                        <a href="https://example.com/specs" class="footer-btn">SPECS</a>
+                    </div>
+                </div>
+
+                <div class="footer-text">
+                    <p>Made with love for watches and the smarts in 🇮🇳 <br> © Timeflix Industries Private Limited 2025</p>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!--/////////////////////TEMPLATES/////////////////// 
+     <section>
+      <div class="content">
+        <div class="media">
+          <video autoplay muted loop>
+            <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="text">
+          <h1>Heading Three</h1>
+          <h2>Subheading Three</h2>
+          <p>This is the paragraph text for the third section. It describes the media on the left.</p>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="content">
+        <div class="media">
+          <img src="https://via.placeholder.com/500/0000FF/FFFFFF" alt="Placeholder" />
+        </div>
+        <div class="text">
+          <h1>Heading Four</h1>
+          <h2>Subheading Four</h2>
+          <p>This is the paragraph text for the fourth section. It describes the image on the left.</p>
+        </div>
+      </div>
+    </section>
+    -->
+    </main>
+
+    <script>
+        const sections = document.querySelectorAll("section");
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                } else {
+                    entry.target.classList.remove("visible");
+                }
+            });
+        }, {
+            threshold: 0.4
+        });
+
+        sections.forEach(section => observer.observe(section));
+    </script>
+</body>
+
+</html>
